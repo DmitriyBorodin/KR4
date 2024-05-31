@@ -29,6 +29,18 @@ class Vacancy:
                 f"Город: {self.area}\n"
                 f"Ссылка: {self.url}\n")
 
+    def __gt__(self, other):
+
+        # Как быть с разными валютами? RUR vs KZT
+
+        if isinstance(other, Vacancy):
+            if self.salary > other.salary:
+                return True
+            else:
+                return False
+        raise TypeError("Вакансии можно сравнивать только с другими вакансиями")
+
+
     @classmethod
     def new_vacancy(cls, vacancy):
         vac_schedule = (f"{vacancy['employment']['name']},"
@@ -60,5 +72,9 @@ if __name__ == "__main__":
     get_vac = VacancyGetter('Python')
     a = get_vac.get_vacancies()
 
-    vac = Vacancy.new_vacancy(a["items"][5])
-    print(vac)
+    vac1 = Vacancy.new_vacancy(a["items"][1])
+    vac2 = Vacancy.new_vacancy(a["items"][2])
+    print(vac1)
+    print(vac2)
+
+    print(vac1 > vac2)
