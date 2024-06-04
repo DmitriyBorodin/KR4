@@ -1,4 +1,4 @@
-from hhparser import VacancyGetter
+from hhparser import HHVacancyGetter
 
 
 class Vacancy:
@@ -30,15 +30,21 @@ class Vacancy:
                 f"Ссылка: {self.url}\n")
 
     def __gt__(self, other):
-
-        # Как быть с разными валютами? RUR vs KZT
-
         if isinstance(other, Vacancy):
             if self.salary > other.salary:
                 return True
             else:
                 return False
         raise TypeError("Вакансии можно сравнивать только с другими вакансиями")
+
+    def __lt__(self, other):
+        if isinstance(other, Vacancy):
+            if self.salary < other.salary:
+                return True
+            else:
+                return False
+        raise TypeError("Вакансии можно сравнивать только с другими вакансиями")
+
 
 
     @classmethod
@@ -69,11 +75,11 @@ class Vacancy:
 
 
 if __name__ == "__main__":
-    get_vac = VacancyGetter('Python')
+    get_vac = HHVacancyGetter('Python')
     a = get_vac.get_vacancies()
 
-    vac1 = Vacancy.new_vacancy(a["items"][1])
-    vac2 = Vacancy.new_vacancy(a["items"][2])
+    vac1 = Vacancy.new_vacancy(a["items"][0])
+    vac2 = Vacancy.new_vacancy(a["items"][1])
     print(vac1)
     print(vac2)
 
