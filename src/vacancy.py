@@ -1,4 +1,4 @@
-from hhparser import HHVacancyGetter
+from src.hhparser import HHVacancyGetter
 
 
 class Vacancy:
