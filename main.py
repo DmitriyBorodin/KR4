@@ -1,15 +1,15 @@
-import requests
-import json
+from src.hhparser import HHVacancyGetter
 
-url = "https://api.hh.ru/vacancies?text=python"
+if __name__ == "__main__":
+    get_vac = HHVacancyGetter('Python')
+    a = get_vac.get_vacancies()
 
-response = requests.get(url)
+    i = 55
 
-data = response.json()
-
-print(response.text)
-
-with open('data.json', 'w') as file:
-    json.dump(data, file)
-
-print(data["items"][0])
+    print(a["items"][i])
+    print(a["items"][i]['name'])
+    print(a["items"][i]['salary'])
+    print(a["items"][i]['alternate_url'])
+    print(f"{a['items'][i]['schedule']['name']}, {a['items'][i]['employment']['name']}")
+    print(a["items"][i]['area']['name'])
+    print(a["pages"])

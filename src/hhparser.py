@@ -12,28 +12,23 @@ class Parser(ABC):
 
 class HHVacancyGetter(Parser):
 
-    site = "https://api.hh.ru/vacancies"
+    def __init__(self, vac_name, current_page=0, max_page=1,
+                 site="https://api.hh.ru/vacancies", area=113):
 
-    def __init__(self, vac_name):
         self.vac_name = vac_name
-        if vac_name:
-            HHVacancyGetter.site += f"?text={vac_name}"
+        self.current_page = current_page
+        self.max_page = max_page
+        self.site = site
+        self.area = area
+        self.url = f"{self.site}?text={self.vac_name}&page={self.current_page}&area={self.area}&per_page=100"
 
     def get_vacancies(self):
-        data = (requests.get(HHVacancyGetter.site)).json()
-        with open("vacancies.json", "w") as file:
-            json.dump(data, file)
+        with open("data/vacancies.json", "w") as file:
+            for page in range(self.max_page):
+                data = (requests.get(f"{self.site}?text={self.vac_name}&page={self.current_page}&area={self.area}&per_page=100")).json()
+                json.dump(data, file, sort_keys=True, indent=4)
+                print(f"Страница = {self.current_page}")
+                self.current_page += 1
+                print(self.url)
         return data
-
-
-if __name__ == "__main__":
-    get_vac = HHVacancyGetter('Python')
-    a = get_vac.get_vacancies()
-
-    print(a["items"][1])
-    print(a["items"][0]['name'])
-    print(a["items"][0]['salary'])
-    print(a["items"][0]['alternate_url'])
-    print(f"{a['items'][0]['schedule']['name']}, {a['items'][0]['employment']['name']}")
-    print(a["items"][0]['area']['name'])
 

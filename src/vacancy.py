@@ -55,7 +55,7 @@ class Vacancy:
         vac_salary = 0
         if not vacancy.get('salary'):
             vac_salary = 0
-        elif vacancy['salary']['from']:
+        elif vacancy['salary']['to']:
             vac_salary = int(vacancy['salary']['to'])
 
         vac_curr = 'Не указана'
@@ -78,9 +78,11 @@ if __name__ == "__main__":
     get_vac = HHVacancyGetter('Python')
     a = get_vac.get_vacancies()
 
-    vac1 = Vacancy.new_vacancy(a["items"][0])
-    vac2 = Vacancy.new_vacancy(a["items"][1])
+    vac1 = Vacancy.new_vacancy(a["items"][1])
+    vac2 = Vacancy.new_vacancy(a["items"][9])
     print(vac1)
     print(vac2)
 
     print(vac1 > vac2)
+
+
