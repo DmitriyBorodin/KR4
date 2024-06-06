@@ -1,4 +1,4 @@
-from src.vacmanager import HHManager
+from src.vacmanager import HHManagerJSON
 from src.vacancy import Vacancy
 from src.hhparser import HHVacancyGetter
 import json
@@ -37,5 +37,5 @@ import json
 
 
 if __name__ == "__main__":
-    a = HHManager()
-    a.delete_vacancy_by_id("101312604")
+    a = HHManagerJSON()
+    a.delete_vacancy_by_id("101367675")

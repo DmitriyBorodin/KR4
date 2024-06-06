@@ -17,7 +17,7 @@ class VacManager(ABC):
         pass
 
 
-class HHManager(VacManager):
+class HHManagerJSON(VacManager):
 
     vac_file = "data/vacancies.json"
 
@@ -25,7 +25,7 @@ class HHManager(VacManager):
         self.vacancies = vacancies if vacancies else []
 
     def add_vacancies(self):
-        with open(HHManager.vac_file, encoding='utf-8') as file:
+        with open(HHManagerJSON.vac_file, encoding='utf-8') as file:
             read = file.read()
             data = json.loads(read)
 
