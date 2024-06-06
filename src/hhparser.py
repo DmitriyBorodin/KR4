@@ -31,7 +31,7 @@ class HHVacancyGetter(Parser):
                 # print(f"Страница = {self.current_page}")
                 self.current_page += 1
                 # print(self.url)
-            json.dump(vacancies, file, sort_keys=True, indent=4)
+            json.dump(vacancies, file, sort_keys=False, indent=4, ensure_ascii=False)
         return vacancies
 
     # def get_vacancies(self):

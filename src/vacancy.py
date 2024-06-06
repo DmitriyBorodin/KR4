@@ -9,7 +9,7 @@ class Vacancy:
     area: str
     currency: str
 
-    def __init__(self, name, url, salary, schedule, area, currency):
+    def __init__(self, name, url, salary, schedule, area, currency, id):
         self.name = name
 
         if url[:8] != 'https://':
@@ -19,6 +19,7 @@ class Vacancy:
         self.schedule = schedule
         self.area = area
         self.currency = currency
+        self.id = id
 
     def __str__(self):
         return (f"Название вакансии: {self.name}\n"
@@ -68,7 +69,7 @@ class Vacancy:
 
         return cls(vacancy['name'], vacancy['alternate_url'],
                    vac_salary, vac_schedule, vacancy['area']['name'],
-                   vac_curr)
+                   vac_curr, vacancy['id'])
 
 
 if __name__ == "__main__":

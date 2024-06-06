@@ -13,7 +13,7 @@ class VacManager(ABC):
         pass
 
     @abstractmethod
-    def delete_vacancy(self, vacancy):
+    def delete_vacancy_by_id(self, vacancy_id):
         pass
 
 
@@ -66,10 +66,11 @@ class HHManager(VacManager):
 
         return result if result else "Нет вакансий с заданными критериями"
 
+    def delete_vacancy_by_id(self, vacancy_id):
 
+        with open("data/obj_vacancies.json", "r", encoding='utf-8') as file:
+            data = json.load(file)
+            new_data = [vacancy for vacancy in data if str(vacancy_id) != vacancy["id"]]
 
-
-
-    def delete_vacancy(self, vacancy):
-        pass
-
+        with open("data/obj_vacancies.json", "w", encoding='utf-8') as file:
+            json.dump(new_data, file, sort_keys=False, indent=4, ensure_ascii=False)
