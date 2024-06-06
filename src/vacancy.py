@@ -1,4 +1,5 @@
 from src.hhparser import HHVacancyGetter
+import requests
 
 
 class Vacancy:
@@ -9,7 +10,7 @@ class Vacancy:
     area: str
     currency: str
 
-    def __init__(self, name, url, salary, schedule, area, currency, id):
+    def __init__(self, name, url, salary, schedule, area, currency, vac_id, description):
         self.name = name
 
         if url[:8] != 'https://':
@@ -19,7 +20,8 @@ class Vacancy:
         self.schedule = schedule
         self.area = area
         self.currency = currency
-        self.id = id
+        self.vac_id = vac_id
+        self.description = description
 
     def __str__(self):
         return (f"Название вакансии: {self.name}\n"
@@ -27,7 +29,9 @@ class Vacancy:
                 f"Зарплата: {self.salary}\n"
                 f"Валюта: {self.currency}\n"
                 f"Город: {self.area}\n"
-                f"Ссылка: {self.url}\n")
+                f"Ссылка: {self.url}\n"
+                f"id вакансии: {self.vac_id}"
+                f"Описание: {self.description}")
 
     def __gt__(self, other):
         if isinstance(other, Vacancy):
@@ -67,20 +71,8 @@ class Vacancy:
         # elif vacancy['salary']['to']:
         #     vac_salary = f"{vacancy['salary']['to']}{vacancy['salary']['currency']}"
 
+        description = (requests.get(vacancy['url']).json())['description']
+
         return cls(vacancy['name'], vacancy['alternate_url'],
                    vac_salary, vac_schedule, vacancy['area']['name'],
-                   vac_curr, vacancy['id'])
-
-
-if __name__ == "__main__":
-    get_vac = HHVacancyGetter('Python')
-    a = get_vac.get_vacancies()
-
-    vac1 = Vacancy.new_vacancy(a["items"][1])
-    vac2 = Vacancy.new_vacancy(a["items"][9])
-    print(vac1)
-    print(vac2)
-
-    print(vac1 > vac2)
-
-
+                   vac_curr, vacancy['id'], description)
