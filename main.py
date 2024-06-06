@@ -19,10 +19,24 @@ import json
     # print(a["pages"])
 
 
-if __name__ == "__main__":
-    a = HHManager()
-    a.add_vacancies()
+# if __name__ == "__main__":
+    # a = HHManager()
+    # a.add_vacancies()
 
     # with open("data/obj_vacancies.json", encoding='utf-8') as file:
     #     data = json.loads("data/obj_vacancies.json")
     #     print(data)
+
+if __name__ == "__main__":
+    a = HHManager()
+    list_of_vacs = a.get_sorted_vacancies(schedule="Частичная", salary=100000)
+
+    for vac in list_of_vacs:
+        print(vac)
+    print(f"Всего вакансий - {len(list_of_vacs)}")
+
+
+
+    # print()
+
+    # a.delete_vacancy()

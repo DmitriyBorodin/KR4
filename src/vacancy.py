@@ -15,7 +15,6 @@ class Vacancy:
         if url[:8] != 'https://':
             raise ValueError("Ссылка должна начинаться с https://")
         self.url = url
-
         self.salary = salary
         self.schedule = schedule
         self.area = area

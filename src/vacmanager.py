@@ -9,11 +9,11 @@ class VacManager(ABC):
         pass
 
     @abstractmethod
-    def sort_vacancies(self):
+    def get_sorted_vacancies(self):
         pass
 
     @abstractmethod
-    def delete_vacancies(self):
+    def delete_vacancy(self, vacancy):
         pass
 
 
@@ -28,7 +28,6 @@ class HHManager(VacManager):
         with open(HHManager.vac_file, encoding='utf-8') as file:
             read = file.read()
             data = json.loads(read)
-            print(len(data))
 
         vac_list = []
 
@@ -36,14 +35,41 @@ class HHManager(VacManager):
 
             for vacancy in data:
                 vac_list.append(Vacancy.new_vacancy(vacancy).__dict__)
-                print(Vacancy.new_vacancy(vacancy).__dict__)
 
             json.dump(vac_list, file2, sort_keys=False, indent=4, ensure_ascii=False)
 
+    def get_sorted_vacancies(self, salary=None, schedule=None):
+
+        result = []
+
+        if not salary and not schedule:
+            return "Критерии поиска вакансий не заданы"
+
+        with open("data/obj_vacancies.json", encoding='utf-8') as file:
+            data = json.load(file)
+
+            if salary and not schedule:
+                for vacancy in data:
+                    if vacancy['salary'] >= salary:
+                        result.append(vacancy)
+                        print(vacancy)
+
+            elif schedule and not salary:
+                for vacancy in data:
+                    if schedule.lower() in vacancy["schedule"].lower():
+                        result.append(vacancy)
+
+            else:
+                for vacancy in data:
+                    if vacancy['salary'] >= salary and schedule.lower() in vacancy["schedule"].lower():
+                        result.append(vacancy)
+
+        return result if result else "Нет вакансий с заданными критериями"
 
 
-    def sort_vacancies(self):
+
+
+
+    def delete_vacancy(self, vacancy):
         pass
 
-    def delete_vacancies(self):
-        pass
