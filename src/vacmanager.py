@@ -25,8 +25,25 @@ class HHManager(VacManager):
         self.vacancies = vacancies if vacancies else []
 
     def add_vacancies(self):
-        with open(HHManager.vac_file) as file:
-
+        with open(HHManager.vac_file, encoding='utf-8') as file:
             read = file.read()
             data = json.loads(read)
-            print(data[0])
+            print(len(data))
+
+        vac_list = []
+
+        with open("data/obj_vacancies.json", 'w', encoding='utf-8') as file2:
+
+            for vacancy in data:
+                vac_list.append(Vacancy.new_vacancy(vacancy).__dict__)
+                print(Vacancy.new_vacancy(vacancy).__dict__)
+
+            json.dump(vac_list, file2, sort_keys=False, indent=4, ensure_ascii=False)
+
+
+
+    def sort_vacancies(self):
+        pass
+
+    def delete_vacancies(self):
+        pass

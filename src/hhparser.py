@@ -12,7 +12,7 @@ class Parser(ABC):
 
 class HHVacancyGetter(Parser):
 
-    def __init__(self, vac_name, current_page=0, max_page=1,
+    def __init__(self, vac_name, current_page=0, max_page=20,
                  site="https://api.hh.ru/vacancies", area=113):
 
         self.vac_name = vac_name
@@ -24,7 +24,7 @@ class HHVacancyGetter(Parser):
 
     def get_vacancies(self):
         vacancies = []
-        with open("data/vacancies.json", "w") as file:
+        with open("data/vacancies.json", "w", encoding="utf-8") as file:
             for page in range(self.max_page):
                 data = (requests.get(f"{self.site}?text={self.vac_name}&page={self.current_page}&area={self.area}&per_page=100")).json()
                 vacancies.extend(data['items'])

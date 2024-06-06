@@ -45,8 +45,6 @@ class Vacancy:
                 return False
         raise TypeError("Вакансии можно сравнивать только с другими вакансиями")
 
-
-
     @classmethod
     def new_vacancy(cls, vacancy):
         vac_schedule = (f"{vacancy['employment']['name']},"
