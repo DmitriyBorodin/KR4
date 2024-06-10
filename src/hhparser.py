@@ -28,7 +28,7 @@ class HHVacancyGetter(Parser):
             for page in range(self.max_page):
                 data = (requests.get(f"{self.site}?text={self.vac_name}&page={self.current_page}&area={self.area}&per_page=100")).json()
                 vacancies.extend(data['items'])
-                # print(f"Страница = {self.current_page}")
+                print(f"Страница = {self.current_page}")
                 self.current_page += 1
                 # print(self.url)
             json.dump(vacancies, file, sort_keys=False, indent=4, ensure_ascii=False)
@@ -48,4 +48,3 @@ class HHVacancyGetter(Parser):
     #             print(self.url)
     #         json.dump(vacancies, 'data/vacancies.json', sort_keys=True, indent=4)
     #     return data
-

@@ -1,6 +1,3 @@
-from src.hhparser import HHVacancyGetter
-import requests
-
 
 class Vacancy:
     name: str
@@ -10,7 +7,7 @@ class Vacancy:
     area: str
     currency: str
 
-    def __init__(self, name, url, salary, schedule, area, currency, vac_id, description):
+    def __init__(self, name, url, salary, schedule, area, currency, vac_id, requirement):
         self.name = name
 
         if url[:8] != 'https://':
@@ -21,7 +18,7 @@ class Vacancy:
         self.area = area
         self.currency = currency
         self.vac_id = vac_id
-        self.description = description
+        self.requirement = requirement
 
     def __str__(self):
         return (f"Название вакансии: {self.name}\n"
@@ -30,8 +27,8 @@ class Vacancy:
                 f"Валюта: {self.currency}\n"
                 f"Город: {self.area}\n"
                 f"Ссылка: {self.url}\n"
-                f"id вакансии: {self.vac_id}"
-                f"Описание: {self.description}")
+                f"id вакансии: {self.vac_id}\n"
+                f"Описание: {self.requirement}\n")
 
     def __gt__(self, other):
         if isinstance(other, Vacancy):
@@ -64,6 +61,11 @@ class Vacancy:
         if vacancy.get('salary'):
             vac_curr = vacancy['salary']['currency']
 
+        try:
+            requirement = vacancy['snippet']['requirement']
+        except KeyError:
+            requirement = 'Нет описания'
+
         # if not vacancy.get('salary'):
         #     vac_salary = 'ЗП не указана'
         # elif vacancy['salary']['from']:
@@ -71,8 +73,11 @@ class Vacancy:
         # elif vacancy['salary']['to']:
         #     vac_salary = f"{vacancy['salary']['to']}{vacancy['salary']['currency']}"
 
-        description = (requests.get(vacancy['url']).json())['description']
+        # try:
+        #     description = (requests.get(vacancy['url']).json())['description']
+        # except KeyError:
+        #     description = "Нет описания"
 
         return cls(vacancy['name'], vacancy['alternate_url'],
                    vac_salary, vac_schedule, vacancy['area']['name'],
-                   vac_curr, vacancy['id'], description)
+                   vac_curr, vacancy['id'], requirement)

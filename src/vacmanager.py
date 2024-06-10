@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import json
 from src.vacancy import Vacancy
 
+
 class VacManager(ABC):
 
     @abstractmethod
@@ -33,8 +34,11 @@ class HHManagerJSON(VacManager):
 
         with open("data/obj_vacancies.json", 'w', encoding='utf-8') as file2:
 
+            vac_counter = 0
             for vacancy in data:
                 vac_list.append(Vacancy.new_vacancy(vacancy).__dict__)
+                vac_counter += 1
+                # print(f"Вакансия #{vac_counter} добавлена")
 
             json.dump(vac_list, file2, sort_keys=False, indent=4, ensure_ascii=False)
 
@@ -70,7 +74,7 @@ class HHManagerJSON(VacManager):
 
         with open("data/obj_vacancies.json", "r", encoding='utf-8') as file:
             data = json.load(file)
-            new_data = [vacancy for vacancy in data if str(vacancy_id) != vacancy["id"]]
+            new_data = [vacancy for vacancy in data if str(vacancy_id) != vacancy["vac_id"]]
 
         with open("data/obj_vacancies.json", "w", encoding='utf-8') as file:
             json.dump(new_data, file, sort_keys=False, indent=4, ensure_ascii=False)
